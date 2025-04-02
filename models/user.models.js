@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -22,7 +24,26 @@ const userSchema = new mongoose.Schema({
         required: true,
         enum: ["Job Seeker", "Employer"]
     }
+}, { timestamps: true })
+
+
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+        next()
+    }
+    this.password = await bcrypt.hash(this.password, 10)
 })
+
+userSchema.methods.comparePassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password)
+}
+
+userSchema.methods.generateJWTTOken = async function () {
+    return jwt.sign({ id: this._id }, "SECRET_KEY", {
+        expiresIn: "8h"
+    })
+}
+
 
 
 const User = mongoose.model("User", userSchema)

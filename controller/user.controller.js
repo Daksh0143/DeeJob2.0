@@ -25,4 +25,41 @@ const registerUser = async (req, res) => {
     }
 }
 
-module.exports = { registerUser }
+const loginUser = async (req, res) => {
+    const { email, password, role } = req.body
+
+    if (!email || !password || !role) {
+        return failureResponse(res, "Please provide all the details")
+    }
+
+    const existingUser = await User.findOne({ email })
+
+    if (!existingUser) {
+        return failureResponse(res, "User not found")
+    }
+    const isPasswordMatched = await existingUser.comparePassword(password)
+    if (!isPasswordMatched) {
+        return failureResponse(res, "Incorrect Password")
+    }
+
+    if (existingUser.role !== role) {
+        return failureResponse(res, "User with this role is not registered")
+    }
+
+    const token = await existingUser.generateJWTTOken()
+
+    return successResponse(res, "User Loggedin successfully", {
+        existingUser, token
+    })
+
+}
+
+const getUserProfile = async (req, res) => {
+    try {
+        return successResponse(res, "User details get successfully", req.user)
+    } catch (error) {
+        return failureResponse(res, "Internal server error")
+    }
+}
+
+module.exports = { registerUser, loginUser ,getUserProfile }
