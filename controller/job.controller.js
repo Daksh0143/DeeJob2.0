@@ -248,4 +248,27 @@ const updateJobs = async (req, res) => {
     }
 }
 
-module.exports = { createJob, getAllJob, getMyJobs, updateJobs }
+const deleteJobs = async (req, res) => {
+    try {
+        const { role } = req.user
+        const { id } = req.params
+        if (role === "Job Seeker") {
+            return failureResponse(res, "Job Seeker is not alloed to this resource")
+        }
+        const findJob = await Job.findOne({ id })
+        if (!findJob) {
+            return failureResponse(res, "No job found")
+        }
+
+        const deleteJob = await Job.findByIdAndDelete(id)
+
+        return successResponse(res, "Job deleted successfully", deleteJob)
+
+    } catch (error) {
+        console.log("ERRRO", error)
+        return failureResponse(res, "Internal Server Error", 501)
+    }
+}
+
+
+module.exports = { createJob, getAllJob, getMyJobs, updateJobs, deleteJobs }
