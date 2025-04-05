@@ -31,7 +31,7 @@ userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
         next()
     }
-    this.password = await bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, process.env.HASHING_ROUND)
 })
 
 userSchema.methods.comparePassword = async function (enteredPassword) {
@@ -39,7 +39,7 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 }
 
 userSchema.methods.generateJWTTOken = async function () {
-    return jwt.sign({ id: this._id }, "SECRET_KEY", {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
         expiresIn: "8h"
     })
 }

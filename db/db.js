@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
+require("dotenv").config()
 
 
-const dbConnect = mongoose.connect("mongodb://localhost:27017/", {
+const dbConnect = mongoose.connect(process.env.MONGO_URI, {
     dbName: "E-Commerce",
 }).then(() => {
     console.log("DB Connected successfully")
