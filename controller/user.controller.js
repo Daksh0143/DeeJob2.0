@@ -16,7 +16,6 @@ const registerUser = async (req, res) => {
             name, email, phone, role, password
         })
 
-        console.log("CREATE USER", createUser)
 
         return await successResponse(res, "User registered successfully", createUser)
     } catch (error) {
@@ -50,7 +49,7 @@ const loginUser = async (req, res) => {
 
     return successResponse(res, "User Loggedin successfully", {
         existingUser, token
-    })
+    }, 200)
 
 }
 
@@ -62,4 +61,4 @@ const getUserProfile = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser ,getUserProfile }
+module.exports = { registerUser, loginUser, getUserProfile }
