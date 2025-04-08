@@ -86,20 +86,40 @@ const getAllJob = async (req, res) => {
         if (city) pipeline.push({ $match: { city } });
 
         // Salary range filter
-        pipeline.push({
-            $match: {
-                $or: [
-                    { fixedSalary: { $gte: minSalary } },
-                    {
+        pipeline.push(
+            //     {
+            //     $match: {
+            //         $or: [
+            //             { fixedSalary: { $gte: minSalary } },
+            //             {
 
-                        $and: [
-                            { salaryFrom: { $lte: maxSalary } },
-                            { salaryTo: { $gte: minSalary } }
-                        ]
-                    }
-                ]
-            }
-        });
+            //                 $and: [
+            //                     { salaryFrom: { $lte: maxSalary } },
+            //                     { salaryTo: { $gte: minSalary } }
+            //                 ]
+            //             }
+            //         ]
+            //     }
+            // }
+            {
+                $match: {
+                    $or: [
+                        {
+                            fixedSalary: {
+                                $gte: minSalary,
+                                $lte: maxSalary,
+                            },
+                        },
+                        {
+                            $and: [
+                                { salaryFrom: { $gte: minSalary } },
+                                { salaryTo: { $lte: maxSalary } },
+                            ],
+                        },
+                    ],
+                },
+            },
+        );
 
         pipeline.push({
             $facet: {
