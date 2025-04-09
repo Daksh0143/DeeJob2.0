@@ -87,20 +87,6 @@ const getAllJob = async (req, res) => {
 
         // Salary range filter
         pipeline.push(
-            //     {
-            //     $match: {
-            //         $or: [
-            //             { fixedSalary: { $gte: minSalary } },
-            //             {
-
-            //                 $and: [
-            //                     { salaryFrom: { $lte: maxSalary } },
-            //                     { salaryTo: { $gte: minSalary } }
-            //                 ]
-            //             }
-            //         ]
-            //     }
-            // }
             {
                 $match: {
                     $or: [
