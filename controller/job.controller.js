@@ -25,6 +25,9 @@ const createJob = async (req, res) => {
             return failureResponse(res, "Please provide all the details")
         }
 
+        console.log("STEP 1", req.body)
+
+
         if ((!salaryFrom || !salaryTo) && !fixedSalary) {
             return failureResponse(res, "Please provide the salary details")
         }
@@ -65,7 +68,6 @@ const getAllJob = async (req, res) => {
         // Aggregation pipeline
         const pipeline = [];
 
-        // Match filter (jobs that are not expired)
         pipeline.push({ $match: { expired: false } });
 
         // Search filter (searching in title, description, category)
@@ -276,5 +278,18 @@ const deleteJobs = async (req, res) => {
     }
 }
 
+const findOneJobs = async (req, res) => {
+    try {
+        const { id } = req.params
+        const response = await Job.findById(id)
+        if (!response) {
+            return failureResponse(res, "Job not found", 400)
+        }
+        return response
+    } catch (error) {
+        return failureResponse(res, "Internal Server Error", 501)
 
-module.exports = { createJob, getAllJob, getMyJobs, updateJobs, deleteJobs }
+    }
+}
+
+module.exports = { createJob, getAllJob, getMyJobs, updateJobs, deleteJobs, findOneJobs }
