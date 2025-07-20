@@ -42,7 +42,7 @@ const loginUser = async (req, res) => {
     }
 
     if (existingUser.role !== role) {
-        return failureResponse(res, "User with this role is not registered")
+        return failureResponse(res, "User with this role is not registered", 400)
     }
 
     const token = await existingUser.generateJWTTOken()

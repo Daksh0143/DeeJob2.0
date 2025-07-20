@@ -1,4 +1,4 @@
-const { Types } = require("mongoose")
+
 const { failureResponse, successResponse } = require("../common/response")
 const Job = require("../models/job.models")
 
@@ -282,14 +282,29 @@ const findOneJobs = async (req, res) => {
     try {
         const { id } = req.params
         const response = await Job.findById(id)
+        console.log("resoinse=>", response)
         if (!response) {
             return failureResponse(res, "Job not found", 400)
         }
-        return response
+        return successResponse(res, "Job Details get successfully", response)
     } catch (error) {
         return failureResponse(res, "Internal Server Error", 501)
 
     }
 }
 
-module.exports = { createJob, getAllJob, getMyJobs, updateJobs, deleteJobs, findOneJobs }
+const loggedInUserJobs = async (req, res) => {
+    try {
+        const user = req.user;
+
+        const myJobs = await Job.find({ postedBy: user._id });
+
+        return successResponse(res, "Jobs fetched successfully", myJobs);
+    } catch (error) {
+        console.error("Error fetching jobs:", error);
+        return failureResponse(res, "Internal Server Error", 501);
+    }
+};
+
+
+module.exports = { createJob, getAllJob, getMyJobs, updateJobs, deleteJobs, findOneJobs, loggedInUserJobs }
