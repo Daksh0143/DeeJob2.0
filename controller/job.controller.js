@@ -293,18 +293,6 @@ const findOneJobs = async (req, res) => {
     }
 }
 
-const loggedInUserJobs = async (req, res) => {
-    try {
-        const user = req.user;
-
-        const myJobs = await Job.find({ postedBy: user._id });
-
-        return successResponse(res, "Jobs fetched successfully", myJobs);
-    } catch (error) {
-        console.error("Error fetching jobs:", error);
-        return failureResponse(res, "Internal Server Error", 501);
-    }
-};
 
 
-module.exports = { createJob, getAllJob, getMyJobs, updateJobs, deleteJobs, findOneJobs, loggedInUserJobs }
+module.exports = { createJob, getAllJob, getMyJobs, updateJobs, deleteJobs, findOneJobs }
