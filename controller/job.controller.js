@@ -161,13 +161,10 @@ const getMyJobs = async (req, res) => {
             return failureResponse(res, "Job Seeker is not allowed to access this resource");
         }
 
-        // Aggregation Pipeline
         const pipeline = [];
 
-        // Match jobs posted by the user
         pipeline.push({ $match: { postedBy: _id } });
 
-        // Search by title or description
         if (search) {
             pipeline.push({
                 $match: {
@@ -179,17 +176,14 @@ const getMyJobs = async (req, res) => {
             });
         }
 
-        // Apply category filter
         if (category) {
             pipeline.push({ $match: { category } });
         }
 
-        // Apply city filter
         if (city) {
             pipeline.push({ $match: { city } });
         }
 
-        // Apply salary range filter
         pipeline.push({
             $match: {
                 $or: [
@@ -202,12 +196,11 @@ const getMyJobs = async (req, res) => {
             }
         });
 
-        // Count total jobs for pagination
         pipeline.push({
             $facet: {
                 totalCount: [{ $count: "total" }],
                 jobs: [
-                    { $sort: { createdAt: -1 } }, // Sort by newest first
+                    { $sort: { createdAt: -1 } },
                     { $skip: (page - 1) * limit },
                     { $limit: limit }
                 ]
