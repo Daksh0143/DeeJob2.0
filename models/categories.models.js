@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const slugify = require("slugify"); // Install: npm i slugify
+const slugify = require("slugify");
 
 const categorySchema = new mongoose.Schema(
     {
@@ -24,7 +24,6 @@ const categorySchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-// 🔁 Pre-save middleware to auto-generate slug
 categorySchema.pre("save", function (next) {
     if (this.isModified("name")) {
         this.slug = slugify(this.name, { lower: true, strict: true });

@@ -21,29 +21,24 @@ const companySchema = new mongoose.Schema({
         required: true,
     },
 
-    // 📅 Billing Year (or could be founded year)
     billingYear: {
         type: Number,
         required: false,
     },
 
-    // 👥 Number of Candidates / Employees
     candidate: {
         type: Number,
         default: 0,
     },
 
-    // 🌐 Website URL
     websiteUrl: {
         type: String,
     },
 
-    // 🖼️ Company Logo URL
     companyLogo: {
         type: String,
     },
 
-    // ✅ Verification status
     isVerified: {
         type: Boolean,
         default: false,
