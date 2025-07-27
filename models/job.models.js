@@ -10,20 +10,20 @@ const jobSchema = new mongoose.Schema({
         required: true
     },
     category: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Categories"
     },
-    country: {
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Company"
+    },
+    role: {
         type: String,
-        required: true,
+        required: true, // 👈 Added this
     },
     city: {
-        type: String,
-        required: true
-    },
-    location: {
-        type: String,
-        require: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "City"
     },
     fixedSalary: {
         type: Number
@@ -34,9 +34,17 @@ const jobSchema = new mongoose.Schema({
     salaryTo: {
         type: Number
     },
+    jobType: {
+        type: String,
+        enum: ["Full-Time", "Part-Time", "Contract", "Internship", "Remote"],
+        default: "Full-Time",
+    },
     expired: {
         type: Boolean,
         default: false
+    },
+    experience: {
+        type: String,
     },
     jobPostedOn: {
         type: Date,

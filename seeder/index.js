@@ -5,14 +5,22 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const seedCategories = require("./category.Seeder");
+const { seedCompanies } = require("./company.seeder");
+const { seedCity } = require("./city.Seeder");
+const { seedJobs } = require("./job.Seeder");
 
 const runAllSeeders = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
+
         console.log("🚀 Connected to MongoDB");
 
-        await seedCategories();
-
+        Promise.all([
+            await seedJobs(),
+            await seedCategories(),
+            await seedCompanies(),
+            await seedCity(),
+        ]);
         console.log("✅ All seeders run successfully.");
         process.exit();
     } catch (err) {

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const User = require("./job.models")
 const companySchema = new mongoose.Schema({
     employer: {
         type: mongoose.Schema.Types.ObjectId,
