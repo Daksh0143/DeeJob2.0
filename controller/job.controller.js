@@ -4,57 +4,62 @@ const Job = require("../models/job.models")
 
 const createJob = async (req, res) => {
     try {
-        const { role } = req.user
+        const { role, _id: userId } = req.user;
 
         if (role === "Job Seeker") {
-            return failureResponse(res, "Job seeker is not allowed to access this resource")
+            return failureResponse(res, "Job seeker is not allowed to access this resource");
         }
 
         const {
             title,
             description,
             category,
-            country,
+            company,
+            jobRole,
+            jobType,
             city,
-            location,
             fixedSalary,
             salaryFrom,
-            salaryTo } = req.body
+            salaryTo,
+            experience
+        } = req.body;
 
-        if (!title || !description || !category || !country || !city || !location) {
-            return failureResponse(res, "Please provide all the details")
+        // Basic required field validation
+        if (!title || !description || !category || !company || !city || !jobRole) {
+            return failureResponse(res, "Please provide all the required details");
         }
 
-        console.log("STEP 1", req.body)
-
-
+        // Salary validation
         if ((!salaryFrom || !salaryTo) && !fixedSalary) {
-            return failureResponse(res, "Please provide the salary details")
+            return failureResponse(res, "Please provide the salary details");
         }
 
         if (salaryFrom && salaryTo && fixedSalary) {
-            return failureResponse(res, "You can not enter both fix and range salary")
+            return failureResponse(res, "You cannot enter both fixed and ranged salary");
         }
-
-        const postedBy = req.user._id;
 
         const job = await Job.create({
             title,
             description,
             category,
-            country,
+            company,
+            jobRole,
+            jobType,
             city,
-            location,
             fixedSalary,
             salaryFrom,
             salaryTo,
-            postedBy
-        })
-        return successResponse(res, "Job Created Successfully", job)
+            experience,
+            postedBy: userId
+        });
+
+        return successResponse(res, "Job Created Successfully", job);
     } catch (error) {
-        return failureResponse(res, "Internal Server error", 404)
+        console.error("Create Job Error:", error);
+        return failureResponse(res, "Internal Server Error", 500);
     }
-}
+};
+
 
 const getAllJob = async (req, res) => {
     try {

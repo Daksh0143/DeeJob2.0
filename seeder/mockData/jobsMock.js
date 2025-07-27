@@ -1,6 +1,6 @@
 const mockJobs = [
     {
-        role: "Frontend Developer",
+        jobRole: "Frontend Developer",
         title: "Hiring for Frontend Developer",
         description: "We're looking for a talented Frontend Developer to join our growing team.",
         category: "6885b232844ce0a84c678887",
@@ -10,7 +10,7 @@ const mockJobs = [
         postedBy: "67f20f979c5dc7eda923224e"
     },
     {
-        role: "Backend Developer",
+        jobRole: "Backend Developer",
         title: "Hiring for Backend Developer",
         description: "We're looking for a talented Backend Developer to join our growing team.",
         category: "6885b232844ce0a84c678888",
@@ -21,7 +21,7 @@ const mockJobs = [
         postedBy: "67f20f979c5dc7eda923224e"
     },
     {
-        role: "UI/UX Designer",
+        jobRole: "UI/UX Designer",
         title: "Hiring for UI/UX Designer",
         description: "We're looking for a talented UI/UX Designer to join our growing team.",
         category: "6885b232844ce0a84c678889",
@@ -31,7 +31,7 @@ const mockJobs = [
         postedBy: "67f20f979c5dc7eda923224e"
     },
     {
-        role: "Project Manager",
+        jobRole: "Project Manager",
         title: "Hiring for Project Manager",
         description: "We're looking for a talented Project Manager to join our growing team.",
         category: "6885b232844ce0a84c678887", // repeat
@@ -42,7 +42,7 @@ const mockJobs = [
         postedBy: "67f20f979c5dc7eda923224e"
     },
     {
-        role: "QA Engineer",
+        jobRole: "QA Engineer",
         title: "Hiring for QA Engineer",
         description: "We're looking for a talented QA Engineer to join our growing team.",
         category: "6885b232844ce0a84c678888", // repeat
