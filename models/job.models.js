@@ -19,7 +19,7 @@ const jobSchema = new mongoose.Schema({
     },
     jobRole: {
         type: String,
-        required: true, // 👈 Added this
+        required: true,
     },
     city: {
         type: mongoose.Schema.Types.ObjectId,
@@ -36,7 +36,7 @@ const jobSchema = new mongoose.Schema({
     },
     jobType: {
         type: String,
-        enum: ["Full-Time", "Part-Time", "Contract", "Internship", "Remote"],
+        enum: ["full-time", "part-time", "contract", "internship", "remote", "freelance"],
         default: "Full-Time",
     },
     expired: {

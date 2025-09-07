@@ -155,7 +155,70 @@ const getAllCompany = async (req, res) => {
     }
 };
 
+const findLoggedInUserCompany = async (req, res) => {
+    try {
+        const user = req.user
+        const response = await Company.find({ employer: user._id })
+        if (!response) {
+            return failureResponse(res, "Company not Found", 401)
+        }
+        return successResponse(res, "Company get successfully", response, 201)
+    } catch (error) {
+        return failureResponse(res, "Internal Server Error", 501)
+    }
+}
+
+
+const editCompany = async (req, res) => {
+    try {
+        const { id } = req.params
+        const existingCompany = await Company.findById(id)
+
+        if (!existingCompany) {
+            return failureResponse(res, "Company not Found", 401)
+        }
+
+        const response = await Company.findByIdAndUpdate(
+            id, req.body, { new: true }
+        )
+
+        if (!response) {
+            return failureResponse(res, "Fail to Update Company", 401)
+        }
+
+        return successResponse(res, "Company update successfully", response, 201)
+
+    } catch (error) {
+        return failureResponse(res, "Internal Server Error", 501)
+    }
+}
+
+const deleteCompany = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const existingCompany = await Company.findById(id)
+
+        if (!existingCompany) {
+            return failureResponse(res, "Company not Found", 401)
+        }
+
+        const response = await Company.findByIdAndDelete(id)
+
+        if (!response) {
+            return failureResponse(res, "Fail to delete Company", 401)
+        }
+        return successResponse(res, "Delete company successfully", response, 201)
+
+    } catch (error) {
+        return failureResponse(res, "Internal Server Error", 501)
+    }
+}
+
 module.exports = {
     createCompany,
-    getAllCompany
+    getAllCompany,
+    findLoggedInUserCompany,
+    editCompany,
+    deleteCompany
 }

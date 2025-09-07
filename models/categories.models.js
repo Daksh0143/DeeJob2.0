@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+const User = require("./user.models");
 
 const categorySchema = new mongoose.Schema(
     {
@@ -9,10 +10,6 @@ const categorySchema = new mongoose.Schema(
             unique: true,
             trim: true,
         },
-        slug: {
-            type: String,
-            unique: true,
-        },
         description: {
             type: String,
         },
@@ -20,6 +17,10 @@ const categorySchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
+        createdBy:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:User
+        }
     },
     { timestamps: true }
 );

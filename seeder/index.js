@@ -16,10 +16,10 @@ const runAllSeeders = async () => {
         console.log("🚀 Connected to MongoDB");
 
         Promise.all([
-            await seedJobs(),
+            // await seedJobs(),
             await seedCategories(),
-            await seedCompanies(),
-            await seedCity(),
+            // await seedCompanies(),
+            // await seedCity(),
         ]);
         console.log("✅ All seeders run successfully.");
         process.exit();
